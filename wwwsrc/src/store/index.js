@@ -4,14 +4,14 @@ import vuex from 'vuex'
 import router from "../router/index"
 import axios from 'axios'
 
-var baseURL = '//localhost:5000/account/'
+var baseURL = '//localhost:5000/'
 
 var auth = axios.create({
     baseURL: baseURL,
     withCredentials: true
 })
-var user = axios.create({
-    baseURL: baseURL + 'users/',
+var api = axios.create({
+    baseURL: baseURL + 'api/',
     withCredentials: true
 })
 
@@ -20,12 +20,18 @@ let store = new vuex.Store(
     {
         state: {
             user: {},
-            vaults: {}
+            vaults: {},
+            keeps: {},
+            activeHome: {}
         },
 
         mutations: {
             setUser(state, user) {
                 state.user = user
+            },
+
+            setActiveHome(state, home) {
+                state.activeHome = home
             },
 
             loginUser(state, payload) {
@@ -38,6 +44,9 @@ let store = new vuex.Store(
 
             addVault(state, payload) {
                 state.vaults = payload
+            },
+            getVaults(state, payload) {
+                state.vaults = payload
             }
 
         },
@@ -45,27 +54,45 @@ let store = new vuex.Store(
         actions: {
             //Add a Vault
             addVault({ commit, dispatch }, payload) {
-                user.post("vaults/", payload)
+                api.post("vaults/", payload)
                     .then(results => {
-                        dispatch("AddVault", results.data)
+                        dispatch("addVault", results.data)
+                    })
+            },
+
+            //Delete a Vault
+            removeVault({ commit, dispatch }, payload) {
+                api.delete("vaults/" + payload.id)
+                    .then(result => {
+                        dispatch("getVaults")
                     })
             },
 
             //Get all Vaults
 
             getVaults({ commit, dispatch }, payload) {
-                user.get("vaults/")
+                api.get("vaults/")
                     .then(results => {
-                        commit("GetVaults", results.data)
+                        commit("getVaults", results.data)
                     })
                     .catch(err => { console.log(err) })
             },
 
             //Get a Vault
             getVault({ commit, dispatch }, payload) {
-                user.get("vaults/" + payload._id)
+                api.get("vaults/" + payload.id)
                     .then(results => {
-                        commit("GetVault", results.data)
+                        commit("getVault", results.data)
+                    })
+                    .catch(err => { console.log(err) })
+            },
+
+            setActiveHome({ commit, dispatch }, payload) {
+                api.get("home/" + payload._id)
+                    .then(result => {
+                        commit('setActiveHome', { id: payload, data: result.data })
+                        router.push({ name: 'Home' })
+                        commit('setActiveHome', result.data)
                     })
                     .catch(err => { console.log(err) })
             },

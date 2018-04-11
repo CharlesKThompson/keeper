@@ -3,7 +3,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-12 vault-title">
-                    Vault Title: {{vaultProp.title}}
+                    Vault Name: {{vault.name}}
                 </div>
                 <form class="form-control mtop" @submit.prevent="addKeep">
                     <div class="row">
@@ -46,11 +46,11 @@
     import Keep from './Keep'
     export default {
         name: 'Vault',
-        props: ['vaultProp'],
+        // props: ['vaultProp'],
         mounted() {
             this.$store.dispatch('getKeeps', {
                 homeId: this.$route.params.homeId,
-                vaultId: this.vaultProp._id
+                vaultId: this.vault._id
             })
         },
         data() {

@@ -42,37 +42,39 @@
                     </div>
             </div>
             <!-- Vaults DRAW HERE -->
-            <div class="row justify-content-md-center">
-                <div class="col-sm-3 vault-box-vault" v-for="vault in vaults">
-                    <vault :vaultProp='vault'> </vault>
-                    <!-- DELETE Vault ICON-BUTTON -->
+            <div class="row justify-content-center">
+                <div class="col-sm-4" v-for="vault in vaults">
+                    <router-link :to="'/vaults/'+ vault._id">{{vault.name}}</router-link>
+                    <!-- DELETE Vault BUTTON -->
                     <button class="vault-btn trash-vault" @click.prevent='removeVault(vault)'>
                         <p>Delete this vault</p>
                     </button>
                 </div>
             </div>
+            
         </div>
     </div>
 </template>
 
 <script>
-    import Navbar from './Navbar'
-    import Vault from './Vault'
+    import Navbar from './Navbar.vue'
+    import Vault from './Vault.vue'
     export default {
         name: 'Home',
         mounted() {
-            this.$store.dispatch('getVaults', {
-                _id: this.$route.params.homeId
-            })
+            this.$store.dispatch('getVaults')
+            // , {
+            //     _id: this.$route.params.homeId
+            // })
+
+
             // this.$store.dispatch('setActiveHome', {
             //     _id: this.$route.params.homeId
             // })
         },
         data() {
             return {
-                vault: {
-                    title: ""
-                },
+                vault: {},
             }
         },
         components: {
@@ -81,7 +83,6 @@
         },
         methods: {
             addVault(vault) {
-                this.vault.homeId = this.home._id
                 this.$store.dispatch('addVault', this.vault)
             },
             removeVault(vault) {
@@ -106,9 +107,6 @@
         computed: {
             vaults() {
                 return this.$store.state.vaults
-            },
-            home() {
-                return this.$store.state.activeHome
             },
             user() {
                 return this.$store.state.user
