@@ -32,6 +32,9 @@ namespace keeper
         [HttpPost]
         public Vault AddVault([FromBody] Vault vault)
         {
+            var user = HttpContext.User;
+            var id = user.Identity.Name;
+            vault.UserId = id;
             if (ModelState.IsValid)
             {
                 return _repo.Add(vault);

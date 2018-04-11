@@ -3,6 +3,8 @@ namespace keeper.Models
 {
     public class Keep : IPostItem
     {
+        public string UserId { get; set; }
+        
         public int Id { get; set; }
 
         public string Name { get; set; }

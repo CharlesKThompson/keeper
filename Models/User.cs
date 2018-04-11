@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace keeper.Models
 {
@@ -40,6 +41,8 @@ namespace keeper.Models
         public string Email { get; set; }
         [Required]
         public string Password { get; set; }
+
+       //public image
     }
 
     public class UserReturnModel

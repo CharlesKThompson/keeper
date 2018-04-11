@@ -17,11 +17,12 @@ namespace keeper.Repositories
         //Create a Vault
         public Vault Add(Vault vault)
         {
-            int id = _db.ExecuteScalar<int>(@"
+            int id = _db.ExecuteScalar<int>($@"
             INSERT INTO vaults (
                 name,
-                description
-                ) VALUES (@Name, @Description", vault);
+                description,
+                userId
+                ) VALUES (@Name, @Description, @UserId)", vault);
             vault.Id = id;
             return vault;
         }

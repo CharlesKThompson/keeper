@@ -1,20 +1,45 @@
 <template>
     <div class="vault">
         <navbar></navbar>
+
+        <div class="spacer col-sm-12">
+        </div>
+
         <div class="container-fluid">
-            <div class="row justify-content-md-center">
-                <!-- CREATE A Vault FORM -->
-                <div class="col-sm-4">
+            <div class="row justify-content-center">
+                <div class="col-sm-3">
                     <form class="form-inline mtop" @submit.prevent="addVault">
-                        <input type="text" class="form-control" v-model="vault.title" name="title" placeholder="Add a New Vault">
                         <!-- ADD Vault BUTTON -->
                         <button class="btn btn-primary mleft">
                             Add New Vault
                         </button>
-                        <!-- RESET BUTTON -->
-                        <button class="btn btn-warning mleft" type="reset">Reset</button>
                     </form>
                 </div>
+                <div class="col-sm-3">
+                    <form class="form-inline mtop" @submit.prevent="getVaults">
+                        <!-- ADD Vault BUTTON -->
+                        <button class="btn btn-primary mleft">
+                            Retreive your Vaults
+                        </button>
+                    </form>
+                </div>
+                <!-- CREATE A Vault FORM -->
+                <div class="col-sm-3">
+                    <form class="form-inline mtop" @submit.prevent="addKeep">
+                        <!-- ADD Vault BUTTON -->
+                        <button class="btn btn-primary mleft">
+                            Add New Keep
+                        </button>
+                    </form>
+                </div>
+                <div class="col-sm-3">
+                        <form class="form-inline mtop" @submit.prevent="getKeeps">
+                            <!-- ADD Vault BUTTON -->
+                            <button class="btn btn-primary mleft">
+                                Retrieve your Keeps
+                            </button>
+                        </form>
+                    </div>
             </div>
             <!-- Vaults DRAW HERE -->
             <div class="row justify-content-md-center">
@@ -25,14 +50,6 @@
                         <p>Delete this vault</p>
                     </button>
                 </div>
-            </div>
-            <!-- LOGOUT BUTTON -->
-            <div class="row justify-content-end">
-                <div class="col-sm-9"></div>
-                <div class="col-sm-2">
-                    <button type="button" class="btn btn-danger mleft logout mbottom" @click='logout'>Logout</button>
-                </div>
-                <div class="col-sm-1"></div>
             </div>
         </div>
     </div>
@@ -101,4 +118,7 @@
 </script>
 
 <style scoped>
+    .spacer {
+        height: 3rem;
+    }
 </style>

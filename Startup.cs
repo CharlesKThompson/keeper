@@ -17,11 +17,13 @@ namespace keeper
 {
     public class Startup
     {
-        private readonly string _connectionString = "";
+        //set connection string here instead of appsettings D$
+        private readonly string _connectionString = "server=192.168.0.2;port=3306;database=courageoustortis;user id=student;password=student;";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            _connectionString = configuration.GetSection("DB").GetValue<string>("mySQLConnectionString");
+            //this breaks for some reason D$
+            // _connectionString = configuration.GetSection("DB").GetValue<string>("mySQLConnectionString");
         }
 
         public IConfiguration Configuration { get; }

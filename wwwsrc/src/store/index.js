@@ -19,7 +19,8 @@ vue.use(vuex)
 let store = new vuex.Store(
     {
         state: {
-            user: {}
+            user: {},
+            vaults: {}
         },
 
         mutations: {
@@ -36,7 +37,7 @@ let store = new vuex.Store(
             },
 
             addVault(state, payload) {
-                state.user = payload
+                state.vaults = payload
             }
 
         },

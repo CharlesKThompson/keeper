@@ -33,6 +33,9 @@ namespace keeper
 
         public Keep AddKeep([FromBody]Keep keep)
         {
+            var user = HttpContext.User;
+            var id = user.Identity.Name;
+            keep.UserId = id;
             if (ModelState.IsValid)
             {
                 return _repo.Add(keep);
