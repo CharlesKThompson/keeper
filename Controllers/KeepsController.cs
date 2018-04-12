@@ -42,5 +42,11 @@ namespace keeper
             }
             return null;
         }
+
+        // [HttpDelete("{id}")]
+        // public void DeleteKeep(int id)
+        // {
+
+        // }
     }
 }

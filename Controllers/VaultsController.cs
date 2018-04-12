@@ -23,13 +23,13 @@ namespace keeper
             return _repo.GetVaults();
         }
 
-        [HttpGet("{id}")]//one Vualt
+        [HttpGet("{id}")]//one Vault
         public Vault GetVault(int id)
         {
             return _repo.GetById(id);
         }
 
-        [HttpPost]
+        [HttpPost]//one Vault
         public Vault AddVault([FromBody] Vault vault)
         {
             var user = HttpContext.User;
@@ -40,6 +40,12 @@ namespace keeper
                 return _repo.Add(vault);
             }
             return null;
+        }
+        
+        [HttpDelete("{id}")]//one Vault
+        public string Delete(int id)
+        {
+            return _repo.Delete(id);
         }
     }
 }

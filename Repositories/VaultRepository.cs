@@ -37,9 +37,14 @@ namespace keeper.Repositories
         public Vault GetById(int id)
         {
             return _db.QueryFirstOrDefault<Vault>(@"
-            SELECT * FROM vaults WHERE id = @id", id);
+            SELECT * FROM vaults WHERE id = @Id", id);
         }
 
         //Delete one Vault
+        public string Delete(int id)
+        {
+            _db.ExecuteScalar("DELETE FROM vaults WHERE id = @Id", new {id=id});
+            return "Successfully deleted";
+        }
     }
 }

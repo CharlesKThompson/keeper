@@ -1,41 +1,48 @@
 <template>
-    <div class="vault">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-12 vault-title">
-                    Vault Name: {{vault.name}}
-                </div>
-                <form class="form-control mtop" @submit.prevent="addKeep">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <input type="text" class="form-control" id="add-new-keep" v-model="keep.title" name="title" placeholder="Add a New Keep">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12 keep-buttons">
-                            <!-- ADD TASK BUTTON -->
-                            <button class="btn btn-primary btn-sm mleft">
-                                Add New Keep
-                            </button>
-                            <!-- RESET BUTTON -->
-                            <button class="btn btn-warning btn-sm" type="reset">
-                                Reset
-                            </button>
-                        </div>
-                    </div>
-                </form>
+    <div class="vaults">
+        <div class="card bg-1">
+            <div class="keep-draw">
+                <i class="fas fa-map-pin fa-2x"></i>
             </div>
-            <!-- Keeps DRAW HERE -->
-            <div class="row" v-for="keep in keeps">
-                <div class="col-sm-12">
-                    <keep :keepProp='keep'></keep>
+            <div class="card-body">
+                <div class="flexor bg-2">
+                    <div>
+                        <h4 class="card-title">{{keep.name}}</h4>
+                    </div>
+                    <div class="flexy" v-if="keep.userId == user._id">
+                        <button data-toggle="modal" class="btn">Add Keep</button>
+                        <div class="modal" tabindex="-1" role="dialog">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Create a new Keep</h5>
+                                        <button type="button" class="close btn" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form @submit="addKeep()" id="uForm">
+                                            <input type="text" v-model="keep.link" name="img" placeholder="Picture">
+                                            <input type="text" v-model="keep.name" name="name" placeholder="Name of Keep">
+                                            <input type="text" v-model="keep.description" name="description" placeholder="Image URL">
+                                            <button type="submit" class="btn btn-submit">Create</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button @click="removeKeep(keep)" class="btn">Delete Keep</button>
+                    </div>
                 </div>
-                <!-- DELETE Keep ICON-BUTTON -->
-                <div class="col-sm-12">
-                    <button class="keep-btn trash-keep" @click.prevent='removeKeep(keep)'>
-                        <p>Delete this keep</p>
-                    </button>
-                    <hr>
+                <!-- <div class="list-group">
+                            <div class="list-group-item bg-2" v-for="vault in vaults">
+                                <Vault :vault="vault"></Vault>
+                            </div>
+                        </div> -->
+                <div class="list-group">
+                    <div class="list-group-item bg-2" v-for="keep in keeps">
+                        <Keep :keep="keep"></Keep>
+                    </div>
                 </div>
             </div>
         </div>
@@ -46,17 +53,20 @@
     import Keep from './Keep'
     export default {
         name: 'Vault',
-        // props: ['vaultProp'],
         mounted() {
-            this.$store.dispatch('getKeeps', {
-                homeId: this.$route.params.homeId,
-                vaultId: this.vault._id
-            })
+            this.$store.state.keeps = [];
+
+            this.$store.dispatch('getKeeps')
+            // , {
+            //     _id: this.$route.params.vaultId
+            // })
         },
         data() {
             return {
                 keep: {
-                    title: ""
+                    link: '',
+                    name: '',
+                    description: ''
                 },
             }
         },
@@ -65,19 +75,18 @@
         },
         methods: {
             addKeep(keep) {
-                this.keep.homeId = this.$route.params.homeId
-                this.keep.vaultId = this.vaultProp._id
-                console.log(this.keep)
+
                 this.$store.dispatch('addKeep', this.keep);
             },
             removeVault(vault) {
                 this.$store.dispatch('removeVault', vault)
             },
             getKeeps() {
-                this.$store.dispatch('getKeeps', {
-                    homeId: this.$route.params.homeId,
-                    vaultId: this.vaultProp._id
-                })
+                this.$store.dispatch('getKeeps')
+                // , {
+                //     homeId: this.$route.params.homeId,
+                //     vaultId: this.vault.id
+                // }
             },
             removeKeep(keep) {
                 this.$store.dispatch('removeKeep', keep)
@@ -85,7 +94,10 @@
         },
         computed: {
             keeps() {
-                return this.$store.state.keeps[this.vaultProp._id]
+                return this.$store.state.keeps
+            },
+            user() {
+                return this.$store.state.user
             }
         },
     }

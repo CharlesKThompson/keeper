@@ -20,10 +20,11 @@ namespace keeper.Repositories
         {
             int id = _db.ExecuteScalar<int>(@"
             INSERT INTO keeps (
+                link,
                 name,
                 description,
                 userId
-            ) VALUES (@Name, @Description, @UserId)", keep);
+            ) VALUES (@Link, @Name, @Description, @UserId)", keep);
             keep.Id = id;
             return keep;
         }

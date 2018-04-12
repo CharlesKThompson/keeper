@@ -47,6 +47,9 @@ let store = new vuex.Store(
             },
             getVaults(state, payload) {
                 state.vaults = payload
+            },
+            getKeeps(state, payload) {
+                state.keeps = payload
             }
 
         },
@@ -83,6 +86,14 @@ let store = new vuex.Store(
                 api.get("vaults/" + payload.id)
                     .then(results => {
                         commit("getVault", results.data)
+                    })
+                    .catch(err => { console.log(err) })
+            },
+            //Keeps
+            getKeeps({ commit, dispatch }, payload) {
+                api.get("keeps/")
+                    .then(results => {
+                        commit("getKeeps", results.data)
                     })
                     .catch(err => { console.log(err) })
             },
