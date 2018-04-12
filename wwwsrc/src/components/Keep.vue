@@ -23,18 +23,13 @@
 <script>
     export default {
         name: 'Keep',
+        props: ["keep"],
 
         data() {
             return {
                 newVaultId: {
 
                 },
-                // keep: {
-                //     link: '',
-                //     name: '',
-                //     description: ''
-
-                // },
             }
         },
 
@@ -45,11 +40,11 @@
             moveKeep() {
                 var updatedKeep = {
                     vaultId: this.newVaultId,
-                    _id: this.keepProp._id,
-                    homeId: this.keepProp.homeId
+                    _id: this.keep._id,
+                    homeId: this.keep.homeId
                 }
 
-                this.$store.dispatch('moveKeep', { keep: updatedKeep, oldVaultId: this.keepProp.vaultId })
+                this.$store.dispatch('moveKeep', { keep: updatedKeep, oldVaultId: this.keep.vaultId })
                 console.log("results", updatedKeep)
             },
         },
@@ -66,9 +61,6 @@
             // keep() {
             //     return this.$store.state.activeKeep
             // },
-            keep() {
-                return this.$store.state.keeps
-            }
         }
     }
 

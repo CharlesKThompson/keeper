@@ -8,14 +8,6 @@
         <div class="container-fluid">
             <div class="row justify-content-center">
                 <div class="col-sm-3">
-                    <form class="form-inline mtop" @submit.prevent="addVault">
-                        <!-- ADD Vault BUTTON -->
-                        <button class="btn btn-primary mleft">
-                            Add New Vault
-                        </button>
-                    </form>
-                </div>
-                <div class="col-sm-3">
                     <form class="form" @submit.prevent="getVaults">
                         <!-- ADD Vault BUTTON -->
                         <button class="btn btn-primary mleft">
@@ -74,8 +66,7 @@
 
         <div class="list-group">
             <div class="list-group-item bg-2" v-for="vault in vaults">
-                <Vault>
-                    <h2>{{vault.name}}</h2>
+                <Vault :vault="vault">
                 </Vault>
                 <button @click="removeVault(vault)" class="btn">Delete Vault</button>
             </div>
