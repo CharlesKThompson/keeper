@@ -18,7 +18,7 @@ namespace keeper
     public class Startup
     {
         //set connection string here instead of appsettings D$
-        private readonly string _connectionString = "server=localhost;port=3306;database=keeper;user id=chuck;password=admin;";
+        private readonly string _connectionString = "server=192.168.0.2;port=3306;database=courageoustortis;user id=student;password=student;";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;

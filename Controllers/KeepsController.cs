@@ -43,10 +43,10 @@ namespace keeper
             return null;
         }
 
-        // [HttpDelete("{id}")]
-        // public void DeleteKeep(int id)
-        // {
-
-        // }
+        [HttpDelete("{id}")]
+        public string Delete(int id)
+        {
+            return _repo.Delete(id);
+        }
     }
 }

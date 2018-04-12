@@ -1,8 +1,8 @@
 /* eslint-disable */
 import vue from 'vue'
+import axios from 'axios'
 import vuex from 'vuex'
 import router from "../router/index"
-import axios from 'axios'
 
 var baseURL = '//localhost:5000/'
 
@@ -22,7 +22,8 @@ let store = new vuex.Store(
             user: {},
             vaults: {},
             keeps: {},
-            activeHome: {}
+            activeHome: {},
+            activeKeep: {}
         },
 
         mutations: {
@@ -48,8 +49,14 @@ let store = new vuex.Store(
             getVaults(state, payload) {
                 state.vaults = payload
             },
+            addKeep(state, payload) {
+                state.keeps = payload
+            },
             getKeeps(state, payload) {
                 state.keeps = payload
+            },
+            setActiveKeep(state, keep) {
+                state.activeKeep = keep
             }
 
         },
@@ -72,7 +79,6 @@ let store = new vuex.Store(
             },
 
             //Get all Vaults
-
             getVaults({ commit, dispatch }, payload) {
                 api.get("vaults/")
                     .then(results => {
@@ -98,6 +104,21 @@ let store = new vuex.Store(
                     .catch(err => { console.log(err) })
             },
 
+            addKeep({ commit, dispatch }, payload) {
+                api.post("keeps/")
+                    .then(results => {
+                        commit("getKeeps", results.data)
+                    })
+                    .catch(err => { console.log(err) })
+            },
+
+            removeKeep({ commit, dispatch }, payload) {
+                api.delete("keeps/" + payload)
+                    .then(results => {
+                        commit("getKeeps", results.data)
+                    })
+                    .catch(err => { console.log(err) })
+            },
             setActiveHome({ commit, dispatch }, payload) {
                 api.get("home/" + payload._id)
                     .then(result => {

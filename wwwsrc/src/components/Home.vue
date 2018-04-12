@@ -41,53 +41,44 @@
                     </form>
                 </div>
             </div>
-            <!-- Vaults DRAW HERE -->
-            <div class="card bg-1">
-                <div class="vault-draw">
-                    <i class="fas fa-map-pin fa-2x"></i>
-                </div>
-                <div class="card-body">
-                    <div class="flexor bg-2">
-                        <div>
-                            <h4 class="card-title">{{vault.name}}</h4>
-                        </div>
-                        <div class="flexy" v-if="vault.userId == user._id">
-                            <button data-toggle="modal" class="btn">Add Vault</button>
-                            <div class="modal" tabindex="-1" role="dialog">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title">Create a new Vault</h5>
-                                            <button type="button" class="close btn" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form @submit="addVault()" id="uForm">
-                                                <input type="text" v-model="vault.link" name="img" placeholder="Picture">
-                                                <input type="text" v-model="vault.name" name="name" placeholder="Name of Vault">
-                                                <input type="text" v-model="vault.description" name="description" placeholder="Image URL">
-                                                <button type="submit" class="btn btn-submit">Create</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <button @click="removeVault(vault)" class="btn">Delete Vault</button>
-                        </div>
+        </div>
+
+        <!-- Create Vaults -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#vaultModal">
+            Add Vault
+        </button>
+
+        <div class="modal fade" id="vaultModal" tabindex="-1" role="dialog" aria-labelledby="#vaultModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="#vaultModalLabel">Create a new Vault</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-                    <div class="list-group">
-                        <div class="list-group-item bg-2" v-for="vault in vaults">
-                            <Vault :vault="vault"></Vault>
-                        </div>
+                    <div class="modal-body">
+                        <form @submit="addVault()">
+                            <input type="text" v-model="vault.name" name="name" placeholder="Name of Vault">
+                            <input type="text" v-model="vault.description" name="description" placeholder="description">
+                        </form>
                     </div>
-                    <!-- <div class="list-group">
-                            <div class="list-group-item bg-2" v-for="keep in keeps">
-                                <Keep :vaultId="vaultId" :keep="keep"></Keep>
-                            </div> -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-submit">Create</button>
+                    </div>
                 </div>
             </div>
+        </div>
 
+
+        <div class="list-group">
+            <div class="list-group-item bg-2" v-for="vault in vaults">
+                <Vault>
+                    <h2>{{vault.name}}</h2>
+                </Vault>
+                <button @click="removeVault(vault)" class="btn">Delete Vault</button>
+            </div>
         </div>
     </div>
 </template>
@@ -101,6 +92,8 @@
 
         mounted() {
             // this.$store.dispatch('authenticate');
+            this.$store.state.vaults = [];
+            this.$store.state.keeps = [];
 
             this.$store.dispatch('getVaults')
             // ,{
@@ -132,6 +125,7 @@
         },
         methods: {
             addVault(vault) {
+                console.log(vault)
                 this.$store.dispatch('addVault', this.vault)
             },
             removeVault(vault) {
@@ -154,6 +148,9 @@
             },
             getKeeps() {
                 this.$store.dispatch('getKeeps')
+            },
+            addKeep() {
+                this.$store.dispatch('addKeep', this.keep)
             }
         },
         computed: {

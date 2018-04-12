@@ -45,10 +45,10 @@ namespace keeper.Repositories
         }
 
         //Delete one Keep
-        public Keep Delete(int id)
+        public string Delete(int id)
         {
-            return _db.QueryFirstOrDefault<Keep>(@"
-            DELETE * FROM keeps WHERE id = @id", id);
+            _db.ExecuteScalar("DELETE FROM keeps WHERE id = @Id", new {id=id});
+            return "Successfully deleted";
         }
     }
 }

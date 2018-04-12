@@ -19,10 +19,10 @@ namespace keeper.Repositories
         {
             int id = _db.ExecuteScalar<int>($@"
             INSERT INTO vaults (
+                userId,
                 name,
-                description,
-                userId
-                ) VALUES (@Name, @Description, @UserId)", vault);
+                description
+                ) VALUES (@UserId, @Name, @Description )", vault);
             vault.Id = id;
             return vault;
         }
